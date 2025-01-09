@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Customer } from '@/types/customer';
 import CustomerList from '@/components/customers/CustomerList';
 import CustomerSearch from '@/components/customers/CustomerSearch';
@@ -26,10 +26,13 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { formatCNPJ, formatPhone } from '@/lib/utils';
 
+const ITEMS_PER_PAGE = 8;
+
 export default function Sacados() {
   const { toast } = useToast();
   const { customers, addNewCustomer, updateCustomer, deleteCustomer } = useCustomers();
   const [filteredCustomers, setFilteredCustomers] = useState<Customer[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [deleteCustomerId, setDeleteCustomerId] = useState<string | null>(null);
   const [showNewCustomerModal, setShowNewCustomerModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -40,19 +43,25 @@ export default function Sacados() {
     setFilteredCustomers(customers);
   }, [customers]);
 
+  const totalPages = Math.ceil(filteredCustomers.length / ITEMS_PER_PAGE);
+  const paginatedCustomers = filteredCustomers.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
   const handleSearch = (query: string) => {
     if (!query.trim()) {
       setFilteredCustomers(customers);
-      return;
+    } else {
+      const filtered = customers.filter(customer => 
+        customer.razaoSocial.toLowerCase().includes(query.toLowerCase()) ||
+        customer.nomeFantasia?.toLowerCase().includes(query.toLowerCase()) ||
+        customer.cnpj.includes(query) ||
+        customer.email.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredCustomers(filtered);
     }
-    
-    const filtered = customers.filter(customer => 
-      customer.razaoSocial.toLowerCase().includes(query.toLowerCase()) ||
-      customer.nomeFantasia?.toLowerCase().includes(query.toLowerCase()) ||
-      customer.cnpj.includes(query) ||
-      customer.email.toLowerCase().includes(query.toLowerCase())
-    );
-    setFilteredCustomers(filtered);
+    setCurrentPage(1);
   };
 
   const handleNewCustomer = (data: Customer) => {
@@ -113,16 +122,51 @@ export default function Sacados() {
         </Button>
       </div>
 
-      <div className="flex-1 min-h-0 p-6">
+      <div className="flex-1 p-6">
         <CustomerList
-          customers={filteredCustomers}
+          customers={paginatedCustomers}
           onEdit={handleEdit}
           onDelete={handleDelete}
           onView={handleView}
         />
       </div>
 
-      {/* Modais permanecem os mesmos */}
+      {/* Pagination */}
+      <div className="p-4 border-t border-gray-200 dark:border-gray-800 flex items-center justify-between">
+        <div className="text-sm text-muted-foreground">
+          Mostrando {((currentPage - 1) * ITEMS_PER_PAGE) + 1} a {Math.min(currentPage * ITEMS_PER_PAGE, filteredCustomers.length)} de {filteredCustomers.length} resultados
+        </div>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+            disabled={currentPage === 1}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <Button
+              key={page}
+              variant={currentPage === page ? "default" : "outline"}
+              size="sm"
+              onClick={() => setCurrentPage(page)}
+            >
+              {page}
+            </Button>
+          ))}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+            disabled={currentPage === totalPages}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+
+      {/* Modals remain the same */}
       <Dialog open={showNewCustomerModal} onOpenChange={setShowNewCustomerModal}>
         <DialogContent className="max-w-4xl">
           <DialogHeader>

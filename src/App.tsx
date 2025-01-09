@@ -43,11 +43,11 @@ function AppContent() {
         </div>
         <main className="flex-1 overflow-y-auto">
           <div className="sticky top-0 z-50 bg-gray-100 dark:bg-[#111111]">
-            <div className="p-8 pb-0">
+            <div className="p-8 pb-2">
               <TopBanner />
             </div>
           </div>
-          <div className="p-8">
+          <div className="px-8 pb-8">
             {showDashboardNav && <DashboardNav />}
             <Routes>
               <Route path="/" element={<Home />} />
