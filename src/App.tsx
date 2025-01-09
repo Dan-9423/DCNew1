@@ -41,23 +41,29 @@ function AppContent() {
         <div className="flex-none">
           <Sidebar />
         </div>
-        <main className="flex-1 overflow-y-auto p-8">
-          <TopBanner />
-          {showDashboardNav && <DashboardNav />}
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
-            
-            {/* Report Routes */}
-            <Route path="/relatorios/contas-semanais" element={<ContasSemanais />} />
-            <Route path="/relatorios/contas-mensais" element={<ContasMensais />} />
-            <Route path="/relatorios/fechamento" element={<Fechamento />} />
-            
-            {/* Email Routes */}
-            <Route path="/emails/sacados" element={<Sacados />} />
-            <Route path="/emails/enviar" element={<EnviarEmail />} />
-            <Route path="/emails/template" element={<TemplateEmail />} />
-          </Routes>
+        <main className="flex-1 overflow-y-auto">
+          <div className="sticky top-0 z-50 bg-gray-100 dark:bg-[#111111]">
+            <div className="p-8 pb-0">
+              <TopBanner />
+            </div>
+          </div>
+          <div className="p-8">
+            {showDashboardNav && <DashboardNav />}
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/profile" element={<Profile />} />
+              
+              {/* Report Routes */}
+              <Route path="/relatorios/contas-semanais" element={<ContasSemanais />} />
+              <Route path="/relatorios/contas-mensais" element={<ContasMensais />} />
+              <Route path="/relatorios/fechamento" element={<Fechamento />} />
+              
+              {/* Email Routes */}
+              <Route path="/emails/sacados" element={<Sacados />} />
+              <Route path="/emails/enviar" element={<EnviarEmail />} />
+              <Route path="/emails/template" element={<TemplateEmail />} />
+            </Routes>
+          </div>
         </main>
       </div>
     </div>

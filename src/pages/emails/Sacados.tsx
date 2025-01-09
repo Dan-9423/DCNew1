@@ -102,7 +102,7 @@ export default function Sacados() {
   };
 
   return (
-    <div className="h-[calc(100vh-7rem)] bg-white dark:bg-[#1C1C1C] rounded-lg shadow-lg flex flex-col">
+    <div className="h-[calc(100vh-12rem)] bg-white dark:bg-[#1C1C1C] rounded-lg shadow-lg flex flex-col">
       <div className="flex justify-between items-center gap-4 p-6 border-b border-gray-200 dark:border-gray-800">
         <div className="w-full max-w-sm">
           <CustomerSearch onSearch={handleSearch} />
