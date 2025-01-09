@@ -12,13 +12,14 @@ import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Auth from './pages/Auth';
 
-// Import new pages
+// Import pages
 import ContasSemanais from './pages/relatorios/ContasSemanais';
 import ContasMensais from './pages/relatorios/ContasMensais';
 import Fechamento from './pages/relatorios/Fechamento';
 import Sacados from './pages/emails/Sacados';
 import EnviarEmail from './pages/emails/EnviarEmail';
 import TemplateEmail from './pages/emails/TemplateEmail';
+import HistoricoEmails from './pages/emails/HistoricoEmails';
 
 function RequireAuth({ children }: { children: JSX.Element }) {
   const { isAuthenticated } = useAuth();
@@ -62,6 +63,7 @@ function AppContent() {
               <Route path="/emails/sacados" element={<Sacados />} />
               <Route path="/emails/enviar" element={<EnviarEmail />} />
               <Route path="/emails/template" element={<TemplateEmail />} />
+              <Route path="/emails/historico" element={<HistoricoEmails />} />
             </Routes>
           </div>
         </main>

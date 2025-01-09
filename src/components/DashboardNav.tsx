@@ -38,6 +38,18 @@ const navConfig: NavConfig = {
       href: '/emails/historico',
       icon: <History className="w-4 h-4" />
     }
+  ],
+  '/emails/historico': [
+    {
+      title: 'Envio de E-mails',
+      href: '/emails/enviar',
+      icon: <Mail className="w-4 h-4" />
+    },
+    {
+      title: 'Histórico de E-mails',
+      href: '/emails/historico',
+      icon: <History className="w-4 h-4" />
+    }
   ]
 };
 

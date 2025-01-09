@@ -5,7 +5,6 @@ import * as z from 'zod';
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Form,
   FormControl,
@@ -17,17 +16,15 @@ import {
 import { CurrencyInput } from '@/components/ui/currency-input';
 import { Customer } from '@/types/customer';
 import { EmailData } from '@/types/email';
-import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
   razaoSocial: z.string().min(1, 'Razão Social é obrigatória'),
   nomeFantasia: z.string().optional(),
   cnpj: z.string().min(1, 'CNPJ é obrigatório'),
   email: z.string().email('E-mail inválido'),
+  telefone: z.string().optional(),
   numeroNF: z.string().min(1, 'Número da NF é obrigatório'),
   valorTotal: z.number().min(0.01, 'Valor deve ser maior que zero'),
-  dataVencimento: z.string().optional(),
-  observacoes: z.string().optional(),
 });
 
 interface EmailFormProps {
@@ -46,10 +43,9 @@ export default function EmailForm({ onSubmit, customers }: EmailFormProps) {
       nomeFantasia: '',
       cnpj: '',
       email: '',
+      telefone: '',
       numeroNF: '',
       valorTotal: 0,
-      dataVencimento: '',
-      observacoes: '',
     },
   });
 
@@ -58,6 +54,7 @@ export default function EmailForm({ onSubmit, customers }: EmailFormProps) {
     form.setValue('nomeFantasia', customer.nomeFantasia);
     form.setValue('cnpj', customer.cnpj);
     form.setValue('email', customer.email);
+    form.setValue('telefone', customer.telefone || '');
     setShowCustomerSearch(false);
     setSearchQuery('');
   };
@@ -154,7 +151,7 @@ export default function EmailForm({ onSubmit, customers }: EmailFormProps) {
               <FormItem>
                 <FormLabel>E-mail</FormLabel>
                 <FormControl>
-                  <Input {...field} type="email" />
+                  <Input {...field} type="email" readOnly />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -177,9 +174,23 @@ export default function EmailForm({ onSubmit, customers }: EmailFormProps) {
 
           <FormField
             control={form.control}
-            name="valorTotal"
+            name="telefone"
             render={({ field }) => (
               <FormItem>
+                <FormLabel>Telefone</FormLabel>
+                <FormControl>
+                  <Input {...field} readOnly />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="valorTotal"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
                 <FormLabel>Valor Total</FormLabel>
                 <FormControl>
                   <CurrencyInput
@@ -191,40 +202,7 @@ export default function EmailForm({ onSubmit, customers }: EmailFormProps) {
               </FormItem>
             )}
           />
-
-          <FormField
-            control={form.control}
-            name="dataVencimento"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Data de Vencimento</FormLabel>
-                <FormControl>
-                  <Input type="date" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </div>
-
-        <FormField
-          control={form.control}
-          name="observacoes"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Observações</FormLabel>
-              <FormControl>
-                <textarea
-                  {...field}
-                  className={cn(
-                    "flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  )}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
         <Button type="submit" className="w-full">
           Visualizar E-mail
