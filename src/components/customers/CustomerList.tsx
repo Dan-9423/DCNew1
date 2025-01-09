@@ -30,16 +30,16 @@ export default function CustomerList({ customers, onEdit, onDelete, onView }: Cu
       <Table>
         <TableHeader className="sticky top-0 bg-white dark:bg-[#1C1C1C] z-10">
           <TableRow>
-            <TableHead>Empresa</TableHead>
+            <TableHead className="pl-6">Empresa</TableHead>
             <TableHead>CNPJ</TableHead>
             <TableHead>E-mail</TableHead>
-            <TableHead className="w-[100px]">Ações</TableHead>
+            <TableHead className="pr-6 w-[100px]">Ações</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {customers.map((customer) => (
             <TableRow key={customer.id}>
-              <TableCell>
+              <TableCell className="pl-6">
                 <div className="flex flex-col">
                   <span className="font-medium">{customer.razaoSocial}</span>
                   <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -49,7 +49,7 @@ export default function CustomerList({ customers, onEdit, onDelete, onView }: Cu
               </TableCell>
               <TableCell>{formatCNPJ(customer.cnpj)}</TableCell>
               <TableCell>{customer.email}</TableCell>
-              <TableCell>
+              <TableCell className="pr-6">
                 <TooltipProvider>
                   <div className="flex items-center gap-2">
                     <Tooltip>

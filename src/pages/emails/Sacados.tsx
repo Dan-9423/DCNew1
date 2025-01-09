@@ -102,26 +102,24 @@ export default function Sacados() {
   };
 
   return (
-    <div className="h-[calc(100vh-7rem)]">
-      <div className="bg-white dark:bg-[#1C1C1C] rounded-lg p-6 shadow-lg h-full flex flex-col">
-        <div className="flex justify-between items-center gap-4 mb-6">
-          <div className="w-full max-w-sm">
-            <CustomerSearch onSearch={handleSearch} />
-          </div>
-          <Button onClick={() => setShowNewCustomerModal(true)}>
-            <Plus className="mr-2 h-4 w-4" />
-            Novo Sacado
-          </Button>
+    <div className="h-[calc(100vh-7rem)] bg-white dark:bg-[#1C1C1C] rounded-lg shadow-lg flex flex-col">
+      <div className="flex justify-between items-center gap-4 p-6 border-b border-gray-200 dark:border-gray-800">
+        <div className="w-full max-w-sm">
+          <CustomerSearch onSearch={handleSearch} />
         </div>
+        <Button onClick={() => setShowNewCustomerModal(true)}>
+          <Plus className="mr-2 h-4 w-4" />
+          Novo Sacado
+        </Button>
+      </div>
 
-        <div className="flex-1 overflow-hidden">
-          <CustomerList
-            customers={filteredCustomers}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            onView={handleView}
-          />
-        </div>
+      <div className="flex-1 min-h-0 p-6">
+        <CustomerList
+          customers={filteredCustomers}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          onView={handleView}
+        />
       </div>
 
       {/* Modais permanecem os mesmos */}
